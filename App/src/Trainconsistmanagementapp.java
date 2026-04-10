@@ -1,28 +1,43 @@
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Trainconsistmanagementapp {
     public static void main(String[] args) {
-        // Create a LinkedList to store the train consist (Bogie IDs)
-        LinkedList<String> trainConsist = new LinkedList<>();
+        // Create a LinkedHashSet to represent the train formation
+        // This ensures uniqueness and preserves insertion order
+        Set<String> trainFormation = new LinkedHashSet<>();
 
-        // 1. Adding bogies to the train
-        trainConsist.add("Engine");
-        trainConsist.add("Sleeper");
-        trainConsist.add("AC");
-        trainConsist.add("Cargo");
-        trainConsist.add("Guard");
+        System.out.println("--- Train Consist Management System ---");
+        System.out.println("Scenario: Preserving Physical Attachment Order with Unique Bogies\n");
 
-        // 2. Inserting a Pantry Car at position 2
-        trainConsist.add(2, "Pantry Car");
+        // Attach bogies to the engine
+        addBogie(trainFormation, "Engine");
+        addBogie(trainFormation, "Sleeper");
+        addBogie(trainFormation, "Cargo");
+        addBogie(trainFormation, "Guard");
 
-        // 3. Removing the first and last bogie
-        trainConsist.removeFirst();
-        trainConsist.removeLast();
+        // Attempt to attach a duplicate bogie intentionally
+        System.out.println("\nAttempting to re-attach a 'Sleeper' bogie...");
+        addBogie(trainFormation, "Sleeper");
 
-        // 4. Displaying the final ordered train consist
-        System.out.println("Final Ordered Train Consist:");
-        for (String bogie : trainConsist) {
-            System.out.println(bogie);
+        // Display the final formation order [cite: 1]
+        System.out.println("\nFinal Train Formation (Order Maintained):");
+        System.out.println(trainFormation);
+
+        // Ordered Iteration [cite: 1]
+        System.out.print("Sequence: ");
+        for (String bogie : trainFormation) {
+            System.out.print(bogie + (bogie.equals("Guard") ? "" : " -> "));
+        }
+        System.out.println();
+    }
+
+    private static void addBogie(Set<String> formation, String bogieName) {
+        // The add() method automatically handles deduplication [cite: 1]
+        if (formation.add(bogieName)) {
+            System.out.println("Successfully attached: " + bogieName);
+        } else {
+            System.out.println("Error: Bogie '" + bogieName + "' is already attached to the consist.");
         }
     }
 }
