@@ -1,43 +1,29 @@
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Trainconsistmanagementapp {
     public static void main(String[] args) {
-        // Create a LinkedHashSet to represent the train formation
-        // This ensures uniqueness and preserves insertion order
-        Set<String> trainFormation = new LinkedHashSet<>();
+        // Create a HashMap to store bogie names as keys and capacities as values
+        // Requirements: HashMap<String, Integer>
+        HashMap<String, Integer> bogieCapacityMap = new HashMap<>();
 
-        System.out.println("--- Train Consist Management System ---");
-        System.out.println("Scenario: Preserving Physical Attachment Order with Unique Bogies\n");
+        // Inserting capacity values for different bogie types using put()
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 56);
+        bogieCapacityMap.put("First Class", 24);
+        bogieCapacityMap.put("Rectangular Goods", 100); // Load capacity example
+        bogieCapacityMap.put("Cylindrical Goods", 80);
 
-        // Attach bogies to the engine
-        addBogie(trainFormation, "Engine");
-        addBogie(trainFormation, "Sleeper");
-        addBogie(trainFormation, "Cargo");
-        addBogie(trainFormation, "Guard");
+        System.out.println("--- Train Bogie Capacity Mapping ---");
 
-        // Attempt to attach a duplicate bogie intentionally
-        System.out.println("\nAttempting to re-attach a 'Sleeper' bogie...");
-        addBogie(trainFormation, "Sleeper");
-
-        // Display the final formation order [cite: 1]
-        System.out.println("\nFinal Train Formation (Order Maintained):");
-        System.out.println(trainFormation);
-
-        // Ordered Iteration [cite: 1]
-        System.out.print("Sequence: ");
-        for (String bogie : trainFormation) {
-            System.out.print(bogie + (bogie.equals("Guard") ? "" : " -> "));
+        // Iterating over the map using entrySet() to display keys and values
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            String bogieName = entry.getKey();
+            Integer capacity = entry.getValue();
+            System.out.println("Bogie: " + bogieName + " | Capacity: " + capacity);
         }
-        System.out.println();
-    }
 
-    private static void addBogie(Set<String> formation, String bogieName) {
-        // The add() method automatically handles deduplication [cite: 1]
-        if (formation.add(bogieName)) {
-            System.out.println("Successfully attached: " + bogieName);
-        } else {
-            System.out.println("Error: Bogie '" + bogieName + "' is already attached to the consist.");
-        }
+        System.out.println("------------------------------------");
+        System.out.println("Bogie-capacity mapping completed successfully.");
     }
 }
